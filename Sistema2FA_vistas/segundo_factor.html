@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificación 2FA - Nivel 2</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="contenedor">
+        <h2>SEGUNDO FACTOR (2FA)</h2>
+        <p style="font-size: 0.9em; color: #dcdcdc; margin-bottom: 20px;">
+            Responde tus dos preguntas de seguridad para continuar.
+        </p>
+
+        <form id="form2FA" action="verificar2FA" method="post">
+            <div class="campo">
+                <label id="lblPregunta1" for="respuesta1">¿Nombre de tu primera mascota?</label>
+                <input type="text" id="respuesta1" name="respuesta1" maxlength="100">
+            </div>
+
+            <div class="campo">
+                <label id="lblPregunta2" for="respuesta2">¿Cuál es tu color favorito?</label>
+                <input type="text" id="respuesta2" name="respuesta2" maxlength="100">
+            </div>
+
+            <button type="submit" id="btnVerificar2FA" class="btn-principal">Verificar Identidad</button>
+        </form>
+
+        <div id="msgError" class="mensaje-error"></div>
+    </div>
+
+    <script>
+        document.getElementById('form2FA').addEventListener('submit', function(e) {
+            const r1 = document.getElementById('respuesta1').value.trim();
+            const r2 = document.getElementById('respuesta2').value.trim();
+            const msgError = document.getElementById('msgError');
+
+            msgError.style.display = 'none';
+
+            if (r1 === "" || r2 === "") {
+                e.preventDefault();
+                msgError.innerText = 'ERROR: Debes responder ambas preguntas de seguridad.';
+                msgError.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Autenticación 2FA</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <!-- ===================================================== -->
+    <!-- VISTA 1: VistaLogin (Nivel 1 - Credenciales)          -->
+    <!-- ===================================================== -->
+    <div id="vistaLogin" class="contenedor">
+        <h2>LOGIN 2FA</h2>
+
+        <form id="loginForm" onsubmit="return false;">
+            <div class="campo">
+                <label for="correo">Correo electrónico:</label>
+                <input type="text" id="correo" name="correo" maxlength="100">
+            </div>
+
+            <div class="campo">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" maxlength="64">
+            </div>
+
+            <button type="button" id="btnIngresar" class="btn-principal">Ingresar</button>
+        </form>
+
+        <div id="msgError" class="mensaje-error"></div>
+        <div id="msgSuccess" class="mensaje-exito"></div>
+
+        <p style="margin-top: 20px; font-size: 0.75em;">
+            <a href="#" id="btnResetBD" style="color: #bbb; text-decoration: underline;">Restablecer datos de prueba</a>
+        </p>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- VISTA 2: VistaSegundoFactor (Nivel 2 - Preguntas)     -->
+    <!-- ===================================================== -->
+    <div id="vistaSegundoFactor" class="contenedor" style="display: none;">
+        <h2>SEGUNDO FACTOR (2FA)</h2>
+        <p style="font-size: 0.9em; color: #dcdcdc; margin-bottom: 20px;">
+            Responde tus dos preguntas de seguridad para continuar.
+        </p>
+
+        <form id="form2FA" onsubmit="return false;">
+            <div class="campo">
+                <label id="lblPregunta1" for="respuesta1">Pregunta 1</label>
+                <input type="text" id="respuesta1" name="respuesta1" maxlength="100">
+            </div>
+
+            <div class="campo">
+                <label id="lblPregunta2" for="respuesta2">Pregunta 2</label>
+                <input type="text" id="respuesta2" name="respuesta2" maxlength="100">
+            </div>
+
+            <button type="button" id="btnVerificar2FA" class="btn-principal">Verificar Identidad</button>
+        </form>
+
+        <div id="msgError2FA" class="mensaje-error"></div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- VISTA 3: VistaDashboard (Acceso Autorizado + Logout)  -->
+    <!-- ===================================================== -->
+    <div id="vistaDashboard" class="contenedor" style="display: none;">
+        <h2>ACCESO AUTORIZADO</h2>
+        <p style="margin-bottom: 10px;">Bienvenido al sistema protegido:</p>
+        <p id="lblUsuarioActivo" style="font-weight: bold; font-size: 1.1em; color: #4CAF50;">
+            Usuario
+        </p>
+        <p style="font-size: 0.85em; color: #e0e0e0; margin-bottom: 25px;">
+            Autenticación de dos factores verificada correctamente.
+        </p>
+
+        <button type="button" id="btnCerrarSesion" class="btn-principal">Cerrar Sesión</button>
+    </div>
+
+    <!-- Capas MVC + DAO -->
+    <script src="js/dao.js"></script>
+    <script src="js/modelo.js"></script>
+    <script src="js/controller.js"></script>
+
+    <script>
+        ConexionBD.inicializarDatos();
+        const controller = new AutenticacionController();
+
+        // Evento Nivel 1 (Login)
+        document.getElementById("btnIngresar").addEventListener("click", function() {
+            const msgError = document.getElementById("msgError");
+            const msgSuccess = document.getElementById("msgSuccess");
+            msgError.style.display = "none";
+            msgSuccess.style.display = "none";
+
+            const correo = document.getElementById("correo").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                controller.iniciarSesion(correo, password);
+            } catch (err) {
+                msgError.innerText = err.message;
+                msgError.style.display = "block";
+            }
+        });
+
+        // Evento Nivel 2 (Preguntas de seguridad)
+        document.getElementById("btnVerificar2FA").addEventListener("click", function() {
+            const msgError2FA = document.getElementById("msgError2FA");
+            msgError2FA.style.display = "none";
+
+            const r1 = document.getElementById("respuesta1").value;
+            const r2 = document.getElementById("respuesta2").value;
+
+            try {
+                controller.verificarSegundoFactor(r1, r2);
+            } catch (err) {
+                msgError2FA.innerText = err.message;
+                msgError2FA.style.display = "block";
+            }
+        });
+
+        // Evento Cerrar Sesión (CU-02)
+        document.getElementById("btnCerrarSesion").addEventListener("click", function() {
+            controller.cerrarSesion();
+        });
+
+        // Reiniciar datos simulados
+        document.getElementById("btnResetBD").addEventListener("click", function(e) {
+            e.preventDefault();
+            ConexionBD.reiniciarBD();
+            document.getElementById("msgError").style.display = "none";
+            const msgSuccess = document.getElementById("msgSuccess");
+            msgSuccess.innerText = "Base de datos simulada restablecida (cuentas activas).";
+            msgSuccess.style.display = "block";
+        });
+    </script>
+</body>
+</html>

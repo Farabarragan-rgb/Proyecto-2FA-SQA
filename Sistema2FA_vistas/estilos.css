@@ -1,0 +1,92 @@
+body {
+    background-image: url("fondo.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.contenedor {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    width: 360px;
+    color: white;
+    text-align: center;
+}
+
+.contenedor h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+div.campo {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+div.campo label {
+    display: block;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    color: #e0e0e0;
+}
+
+div.campo input {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 8px 0;
+    font-size: 1em;
+    outline: none;
+}
+
+div.campo input:focus {
+    border-bottom: 1px solid white;
+}
+
+.btn-principal {
+    background-color: #1a1a2e;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-principal:hover {
+    background-color: #2a2a4a;
+}
+
+.mensaje-error {
+    color: #ff4d4d;
+    margin-top: 15px;
+    font-weight: bold;
+    display: none;
+}
+
+.mensaje-exito {
+    color: #4CAF50;
+    margin-top: 15px;
+    font-weight: bold;
+    display: none;
+}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Principal - Sistema 2FA</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="contenedor">
+        <h2>ACCESO AUTORIZADO</h2>
+        <p style="margin-bottom: 10px;">Bienvenido al sistema protegido:</p>
+        <p id="lblUsuarioActivo" style="font-weight: bold; font-size: 1.1em; color: #4CAF50;">
+            tadeo@uacm.edu.mx
+        </p>
+        <p style="font-size: 0.85em; color: #e0e0e0; margin-bottom: 25px;">
+            Autenticación de dos factores verificada correctamente.
+        </p>
+
+        <form id="logoutForm" action="logout" method="get">
+            <button type="submit" id="btnCerrarSesion" class="btn-principal">Cerrar Sesión</button>
+        </form>
+    </div>
+</body>
+</html>
